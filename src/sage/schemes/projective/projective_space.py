@@ -975,7 +975,10 @@ class ProjectiveSpace_ring(UniqueRepresentation, AmbientSpace):
                              ambient_projective_space=self,
                              default_embedding_index=i)
         elif AA.dimension_relative() != n:
-                raise ValueError("affine space must be of the dimension %s"%(n))
+            raise ValueError("affine space must be of the dimension %s"%(n))
+        elif AA._default_embedding_index != i:
+            # if AA was given initially with wrong embedding index
+            raise ValueError("affine space must be of default embedding index %s"%(i))
         self.__affine_patches[i] = AA
         return AA
 

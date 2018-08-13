@@ -53,8 +53,7 @@ def is_AffineSpace(x):
     """
     return isinstance(x, AffineSpace_generic)
 
-def AffineSpace(n, R=None, names='x', ambient_projective_space=None,
-                default_embedding_index=None):
+def AffineSpace(n, R=None, names='x', **kwds):
     r"""
     Return affine space of dimension ``n`` over the ring ``R``.
 
@@ -104,14 +103,14 @@ def AffineSpace(n, R=None, names='x', ambient_projective_space=None,
         else:
             raise TypeError("you must specify the variables names of the coordinate ring")
     names = normalize_names(n, names)
+    ambient_ps = kwds.pop('ambient_projective_space', None)
+    index = kwds.pop('default_embedding_index', None)
     if R in _Fields:
         if is_FiniteField(R):
-            return AffineSpace_finite_field(n, R, names,
-                                            ambient_projective_space, default_embedding_index)
+            return AffineSpace_finite_field(n, R, names, ambient_ps, index)
         else:
-            return AffineSpace_field(n, R, names,
-                                     ambient_projective_space, default_embedding_index)
-    return AffineSpace_generic(n, R, names, ambient_projective_space, default_embedding_index)
+            return AffineSpace_field(n, R, names, ambient_ps, index)
+    return AffineSpace_generic(n, R, names, ambient_ps, index)
 
 
 class AffineSpace_generic(AmbientSpace, AffineScheme):
